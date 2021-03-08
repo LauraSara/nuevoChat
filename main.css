@@ -1,0 +1,83 @@
+body{
+  background-size: 100%;
+  background-image: linear-gradient( 67.2deg,  rgba(37,208,199,1) -7.5%, rgba(165,90,240,1) 62.7% );
+}
+
+#tablero{
+  margin: auto;
+  display: block; 
+  padding: 30px;    
+}
+
+#tab{
+  background-color: navy;
+  color: white;
+  text-align: center;
+}
+
+#ingresar{
+  background-image: radial-gradient( circle 602px at 2.1% 5.1%,  rgba(233,0,120,1) 0%, rgba(0,0,0,1) 90.1% );
+  width: 800px;
+  color: white;
+  margin: 0 auto;
+  text-align: center;
+  padding: 30px;
+  border: 2px solid violet;
+  border-radius: 250px;
+  font-size: 20px;
+  box-shadow: 10px 10px 10px violet;
+  margin-top: 100px;
+  
+}
+
+.a{
+  width: 300px
+}
+
+input{
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+#btnEnviar{
+  display: block;
+  margin: auto;
+}
+
+#btnIngresar{
+  background-image: linear-gradient( 67.2deg,  rgba(37,208,199,1) -7.5%, rgba(165,90,240,1) 62.7% );
+  color: white;
+  border: none;
+}
+
+#chat{
+  display: none;
+}
+
+#text-msg{
+  width: 800px;
+  margin-left: 200px;
+}
+
+.ms , #btnEnviar{
+  display: inline;
+  float: inline-end;
+  
+}
+
+#escribir{
+  margin-top: 10px;
+  ;
+}
+
+input #text-msg{
+  width: 90%;
+}
+
+#ocultar{
+  display: none;
+}

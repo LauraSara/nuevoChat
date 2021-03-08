@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/papercss@1.8.2/dist/paper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <script src="https://use.fontawesome.com/77a194babb.js"></script>  
+  <style>
+    body{
+      background-size: 100%;
+      background-image: linear-gradient( 67.2deg,  rgba(37,208,199,1) -7.5%, rgba(165,90,240,1) 62.7% );
+    }
+
+    #tablero{
+      margin: auto;
+      display: block; 
+      padding: 30px;    
+    }
+
+    #tab{
+      background-color: navy;
+      color: white;
+      text-align: center;
+    }
+
+    #ingresar{
+      background-image: radial-gradient( circle 602px at 2.1% 5.1%,  rgba(233,0,120,1) 0%, rgba(0,0,0,1) 90.1% );
+      width: 800px;
+      color: white;
+      margin: 0 auto;
+      text-align: center;
+      padding: 30px;
+      border: 2px solid violet;
+      border-radius: 250px;
+      font-size: 20px;
+      box-shadow: 10px 10px 10px violet;
+      margin-top: 100px;
+      
+    }
+
+    .a{
+      width: 300px
+    }
+
+    input{
+      margin: auto;
+      margin-bottom: 10px;
+      font-size: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    #btnEnviar{
+      display: block;
+      margin: auto;
+    }
+
+    #btnIngresar{
+      background-image: linear-gradient( 67.2deg,  rgba(37,208,199,1) -7.5%, rgba(165,90,240,1) 62.7% );
+      color: white;
+      border: none;
+    }
+
+    #chat{
+      display: none;
+    }
+
+    #text-msg{
+      width: 800px;
+      margin-left: 200px;
+      background-color: plum;
+    }
+
+    .ms , #btnEnviar{
+      display: inline;
+      float: inline-end;
+      
+    }
+
+    #escribir{
+      margin-top: 10px;
+      ;
+    }
+
+    input #text-msg{
+      width: 90%;
+    }
+
+    #ocultar{
+      display: none;
+    }
+
+    #btnSalir{
+      padding: 10px;
+      border: 1px solid navy;
+      border-radius: 20px;
+      text-decoration: none;
+      background-color: navy;
+      
+    }
+  </style>
+</head>
+<body>
+  
+    <div id="ingresar">
+      <h2>Ingrese a su cuenta</h2>
+      <input name="usuario" class="a" type="text" id="usuario" placeholder="Ingresar usuario">
+      <input name="contraseña" class="a" type="text" id="contraseña" placeholder="Ingresar contraseña">
+      <input class="btn-block" type="button" value="Ingresar" id="btnIngresar">
+    </div>
+
+  
+
+  <div id="chat" >
+    <h3 id="tab"> DojoChat <br /> </h3>
+    <p id="tablero"></p>
+
+    <div class="escribir">
+      <input name="mensaje" class="ms" type="text" id="text-msg">
+      <input id="ocultar" class="btn-small ms" type="button"<span><i id="btnEnviar" class="fa fa-paper-plane fa-lg" aria-hidden="true"></i> </span>
+    
+    </div>
+  </div>
+  <a id="btnSalir">Abandonar el chat</a>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io();
+
+    $(document).ready(function(){
+      $('#ingresar').fadeIn(700);
+
+    });
+
+    $('#btnIngresar').on('click', function(){
+      let usuario = $('#usuario').val();
+      let contraseña = $('#contraseña').val();
+
+      if(usuario == '' || contraseña == ''){
+        alert('Debes completar ambos campos');
+        return false;
+
+      } else{
+        socket.emit('NuevoUsuario', usuario)
+
+        $('#ingresar').fadeOut(400, function(){
+          $('#chat').fadeIn(400);
+        });
+      }
+    });
+
+    $('#text-msg').keypress(function(event){
+      //enviar con enter
+      if(event.which == 13){
+        $('#btnEnviar').click();
+      }
+    });
+
+    $('#btnEnviar').on('click', function(){
+      let msg = $('#text-msg').val();
+
+      if(msg!= ''){
+        $('#text-msg').val();
+
+        socket.emit('msgNuevo', msg)
+      } 
+
+    });
+
+    document.getElementById('btnSalir').addEventListener('click', () => {
+      const SalirChat = confirm('¿Estas seguro que deseas abandonar el chat?');
+      if (SalirChat) {
+        window.location = '../login.html';
+      } else {
+      }
+    });
+
+    socket.on('msg', function(data){
+      let nuevomsg =  data.usuario + ':' + data.msg;
+
+      $('#tablero').append(nuevomsg + '<br />');
+    });
+
+
+    
+  </script>
+</body>
+</html>
